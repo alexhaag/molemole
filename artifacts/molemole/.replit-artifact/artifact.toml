@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Molemole"
+description = "Site institucional responsivo da Molemole, empresa de impressão digital e confecção personalizada de General Câmara - RS, com galeria de serviços e contato direto pelo WhatsApp e Instagram."
+version = "1.0.0"
+id = "artifacts/molemole"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22653
+
+[services.development]
+run = "pnpm --filter @workspace/molemole run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/molemole", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/molemole/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22653"
+BASE_PATH = "/"
