@@ -1,4 +1,4 @@
 {
   "buildCommand": "pnpm --filter @workspace/molemole run build",
-  "outputDirectory": "artifacts/molemole/dist/public"
+  "outputDirectory": "dist/public"
 }
