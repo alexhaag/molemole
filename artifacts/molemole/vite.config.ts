@@ -13,25 +13,16 @@ for (const [key, value] of Object.entries(
 
 const rawPort = process.env.PORT;
 
-if (!rawPort) {
-  throw new Error(
-    'PORT environment variable is required but was not provided.',
-  );
-}
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
+if (rawPort !== undefined && (Number.isNaN(Number(rawPort)) || Number(rawPort) <= 0)) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
+// PORT only affects the dev/preview server, not the static build output,
+// so it's safe to default it on hosts (Vercel, CI) that only run `vite build`.
+const port = Number(rawPort ?? 3000);
 
-if (!basePath) {
-  throw new Error(
-    'BASE_PATH environment variable is required but was not provided.',
-  );
-}
+// BASE_PATH defaults to root, matching a deploy at the domain's root (e.g. Vercel).
+const basePath = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base: basePath,
